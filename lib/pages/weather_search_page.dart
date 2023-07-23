@@ -11,25 +11,21 @@ class WeatherSearchPage extends StatefulWidget {
 }
 
 class _WeatherSearchPageState extends State<WeatherSearchPage> {
-  WeatherStore _weatherStore;
-  List<ReactionDisposer> _disposers;
+  late WeatherStore _weatherStore;
+  late List<ReactionDisposer> _disposers;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _weatherStore ??= Provider.of<WeatherStore>(context);
-    _disposers ??= [
-      reaction(
-        (_) => _weatherStore.errorMessage,
-        (String message) {
-          _scaffoldKey.currentState.showSnackBar(
+    _weatherStore = Provider.of<WeatherStore>(context);
+    _disposers = [
+      reaction((_) => _weatherStore.errorMessage,(p0) {
+        ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(message),
-            ),
-          );
-        },
-      ),
+              content: Text(p0!),
+            ));
+      }),
     ];
   }
 
@@ -52,12 +48,12 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
         child: Observer(
           builder: (_) {
             switch (_weatherStore.state) {
-              case StoreState.initial:
+              case StoredState.initial:
                 return buildInitialInput();
-              case StoreState.loading:
+              case StoredState.loading:
                 return buildLoading();
-              case StoreState.loaded:
-                return buildColumnWithData(_weatherStore.weather);
+              case StoredState.loaded:
+                return buildColumnWithData(_weatherStore.weather!);
             }
           },
         ),

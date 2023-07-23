@@ -11,8 +11,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Material App',
+      debugShowCheckedModeBanner: false,
       home: Provider(
-        create: (_) => WeatherStore(FakeWeatherRepository()),
+        create: (context) => WeatherStore(FakeWeatherRepository()),
         child: WeatherSearchPage(),
       ),
     );

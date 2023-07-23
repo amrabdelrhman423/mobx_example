@@ -7,7 +7,7 @@ abstract class WeatherRepository {
 }
 
 class FakeWeatherRepository implements WeatherRepository {
-  double cachedTempCelsius;
+  late double cachedTempCelsius;
 
   @override
   Future<Weather> fetchWeather(String cityName) {
